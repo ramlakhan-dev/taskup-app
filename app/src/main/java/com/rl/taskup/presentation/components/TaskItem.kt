@@ -18,7 +18,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.rl.taskup.domain.model.Task
 import java.text.DateFormat
@@ -28,9 +30,10 @@ fun TaskItem(
     modifier: Modifier = Modifier,
     task: Task,
     onTaskItemClick: (Task) -> Unit,
-    onTaskItemLongPressed: (Task) -> Unit
+    onTaskItemLongPressed: (Task) -> Unit,
+    onCheckedChange: (Boolean) -> Unit
 ) {
-    var checked by remember { mutableStateOf(false) }
+    var checked by remember { mutableStateOf(task.isCompleted) }
 
     Card(
         modifier = modifier
@@ -49,6 +52,7 @@ fun TaskItem(
                 checked = checked
             ) {
                 checked = it
+                onCheckedChange(checked)
             }
 
             Column(
@@ -56,7 +60,13 @@ fun TaskItem(
             ) {
                 Text(
                     text = task.title,
-                    style = MaterialTheme.typography.titleLarge,
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        textDecoration = if (checked) {
+                            TextDecoration.LineThrough
+                        } else {
+                            TextDecoration.None
+                        }
+                    ),
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(vertical = 4.dp)
                 )

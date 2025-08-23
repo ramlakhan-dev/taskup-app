@@ -51,6 +51,10 @@ fun Home(
                     },
                     onTaskItemLongPressed = {
                         onTaskItemLongPressed(it)
+                    },
+                    onCheckedChange = { isChecked ->
+                        val completedTask = if (isChecked) task.copy(isCompleted = true) else task.copy(isCompleted = false)
+                        taskViewModel.updateTask(completedTask)
                     }
                 )
             }
