@@ -1,6 +1,7 @@
 package com.rl.taskup.presentation.components
 
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,12 +24,16 @@ import java.text.DateFormat
 @Composable
 fun TaskItem(
     modifier: Modifier = Modifier,
-    task: Task
+    task: Task,
+    onTaskItemClick: (Task) -> Unit
 ) {
     var checked by remember { mutableStateOf(false) }
 
     Card(
         modifier = modifier
+            .clickable{
+                onTaskItemClick(task)
+            }
     ) {
         Row(
             modifier = Modifier.padding(16.dp)

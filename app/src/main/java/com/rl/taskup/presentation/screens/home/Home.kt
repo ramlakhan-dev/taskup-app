@@ -14,13 +14,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.rl.taskup.R
+import com.rl.taskup.domain.model.Task
 import com.rl.taskup.presentation.components.TaskItem
 import com.rl.taskup.presentation.viewmodel.TaskViewModel
 
 @Composable
 fun Home(
     modifier: Modifier = Modifier,
-    taskViewModel: TaskViewModel
+    taskViewModel: TaskViewModel,
+    onTaskItemClick: (Task) -> Unit
 ) {
 
     val taskList = taskViewModel.allTasks.collectAsState(initial = emptyList()).value
@@ -42,7 +44,10 @@ fun Home(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 4.dp),
-                    task
+                    task = task,
+                    onTaskItemClick = {
+                        onTaskItemClick(it)
+                    }
                 )
             }
         }

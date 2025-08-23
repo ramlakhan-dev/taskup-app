@@ -5,6 +5,7 @@ import com.rl.taskup.data.repository.TaskRepositoryImpl
 import com.rl.taskup.domain.repository.TaskRepository
 import com.rl.taskup.domain.usecase.AddTaskUseCase
 import com.rl.taskup.domain.usecase.GetAllTaskUseCase
+import com.rl.taskup.domain.usecase.UpdateTaskUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,6 +32,12 @@ object AppModule {
     @Singleton
     fun provideGetAllTaskUseCase(repository: TaskRepository): GetAllTaskUseCase {
         return GetAllTaskUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUpdateTaskUseCase(repository: TaskRepository): UpdateTaskUseCase {
+        return UpdateTaskUseCase(repository)
     }
 
 }

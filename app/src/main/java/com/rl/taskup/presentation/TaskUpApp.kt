@@ -22,6 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.rl.taskup.R
+import com.rl.taskup.domain.model.Task
 import com.rl.taskup.presentation.components.TaskBottomSheet
 import com.rl.taskup.presentation.screens.home.Home
 import com.rl.taskup.presentation.viewmodel.TaskViewModel
@@ -32,6 +33,7 @@ fun TaskUpApp(taskViewModel: TaskViewModel = hiltViewModel()) {
 
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var showSheet by remember { mutableStateOf(false) }
+    var taskToEdit by remember { mutableStateOf<Task?>(null) }
     if (showSheet) {
         ModalBottomSheet(
             onDismissRequest = {
@@ -40,9 +42,15 @@ fun TaskUpApp(taskViewModel: TaskViewModel = hiltViewModel()) {
             sheetState = sheetState
         ) {
             TaskBottomSheet(
-                modifier = Modifier.fillMaxWidth().padding(16.dp)
+                modifier = Modifier.fillMaxWidth().padding(16.dp),
+                taskToEdit = taskToEdit
             ) { task ->
-                taskViewModel.addTask(task)
+                if (task.id == 0) {
+                    taskViewModel.addTask(task)
+                } else {
+                    taskViewModel.updateTask(task)
+                }
+
                 showSheet = false
             }
         }
@@ -59,6 +67,7 @@ fun TaskUpApp(taskViewModel: TaskViewModel = hiltViewModel()) {
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
+                    taskToEdit = null
                     showSheet = true
                 }
             ) {
@@ -71,7 +80,11 @@ fun TaskUpApp(taskViewModel: TaskViewModel = hiltViewModel()) {
     ) { innerPadding ->
         Home(
             modifier = Modifier.padding(innerPadding),
-            taskViewModel = taskViewModel
+            taskViewModel = taskViewModel,
+            onTaskItemClick = { task ->
+                taskToEdit = task
+                showSheet = true
+            }
         )
     }
 }

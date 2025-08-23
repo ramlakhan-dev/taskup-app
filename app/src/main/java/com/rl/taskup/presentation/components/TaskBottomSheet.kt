@@ -68,7 +68,8 @@ fun TaskBottomSheet(
         Button(
             onClick = {
                 if (title.isNotEmpty() && description.isNotEmpty()) {
-                    val task = Task(title = title, description = description)
+                    val task = taskToEdit?.copy(title = title, description = description)
+                        ?: Task(title = title, description = description)
                     onSave(task)
                 }
             },
