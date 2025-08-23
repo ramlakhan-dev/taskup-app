@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rl.taskup.domain.model.Task
 import com.rl.taskup.domain.usecase.AddTaskUseCase
+import com.rl.taskup.domain.usecase.DeleteTaskUseCase
 import com.rl.taskup.domain.usecase.GetAllTaskUseCase
 import com.rl.taskup.domain.usecase.UpdateTaskUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +16,8 @@ import javax.inject.Inject
 class TaskViewModel @Inject constructor(
     private val addTaskUseCase: AddTaskUseCase,
     getAllTaskUseCase: GetAllTaskUseCase,
-    private val updateTaskUseCase: UpdateTaskUseCase
+    private val updateTaskUseCase: UpdateTaskUseCase,
+    private val deleteTaskUseCase: DeleteTaskUseCase
 ): ViewModel() {
 
     val allTasks: Flow<List<Task>> = getAllTaskUseCase()
@@ -28,6 +30,12 @@ class TaskViewModel @Inject constructor(
     fun updateTask(task: Task) {
         viewModelScope.launch {
             updateTaskUseCase(task)
+        }
+    }
+
+    fun deleteTask(task: Task) {
+        viewModelScope.launch {
+            deleteTaskUseCase(task)
         }
     }
 }

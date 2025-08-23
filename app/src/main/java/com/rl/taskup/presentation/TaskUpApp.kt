@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.rl.taskup.R
 import com.rl.taskup.domain.model.Task
+import com.rl.taskup.presentation.components.DeleteTaskDialog
 import com.rl.taskup.presentation.components.TaskBottomSheet
 import com.rl.taskup.presentation.screens.home.Home
 import com.rl.taskup.presentation.viewmodel.TaskViewModel
@@ -34,6 +35,23 @@ fun TaskUpApp(taskViewModel: TaskViewModel = hiltViewModel()) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var showSheet by remember { mutableStateOf(false) }
     var taskToEdit by remember { mutableStateOf<Task?>(null) }
+    var showDeleteDialog by remember { mutableStateOf(false) }
+    var taskToDelete by remember { mutableStateOf<Task?>(null) }
+
+    if (showDeleteDialog && taskToDelete != null) {
+        DeleteTaskDialog(
+            modifier = Modifier.padding(16.dp),
+            onConfirm = {
+                taskViewModel.deleteTask(taskToDelete!!)
+                showDeleteDialog = false
+            },
+            onDismiss = {
+                showDeleteDialog = false
+            }
+        )
+    }
+
+
     if (showSheet) {
         ModalBottomSheet(
             onDismissRequest = {
@@ -84,6 +102,10 @@ fun TaskUpApp(taskViewModel: TaskViewModel = hiltViewModel()) {
             onTaskItemClick = { task ->
                 taskToEdit = task
                 showSheet = true
+            },
+            onTaskItemLongPressed = { task ->
+                taskToDelete = task
+                showDeleteDialog = true
             }
         )
     }

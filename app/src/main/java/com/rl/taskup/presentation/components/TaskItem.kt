@@ -2,6 +2,7 @@ package com.rl.taskup.presentation.components
 
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,6 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.rl.taskup.domain.model.Task
@@ -25,14 +27,18 @@ import java.text.DateFormat
 fun TaskItem(
     modifier: Modifier = Modifier,
     task: Task,
-    onTaskItemClick: (Task) -> Unit
+    onTaskItemClick: (Task) -> Unit,
+    onTaskItemLongPressed: (Task) -> Unit
 ) {
     var checked by remember { mutableStateOf(false) }
 
     Card(
         modifier = modifier
-            .clickable{
-                onTaskItemClick(task)
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onTap = { onTaskItemClick(task) },
+                    onLongPress = { onTaskItemLongPressed(task) }
+                )
             }
     ) {
         Row(

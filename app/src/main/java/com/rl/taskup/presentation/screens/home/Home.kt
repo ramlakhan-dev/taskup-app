@@ -22,7 +22,8 @@ import com.rl.taskup.presentation.viewmodel.TaskViewModel
 fun Home(
     modifier: Modifier = Modifier,
     taskViewModel: TaskViewModel,
-    onTaskItemClick: (Task) -> Unit
+    onTaskItemClick: (Task) -> Unit,
+    onTaskItemLongPressed: (Task) -> Unit
 ) {
 
     val taskList = taskViewModel.allTasks.collectAsState(initial = emptyList()).value
@@ -47,6 +48,9 @@ fun Home(
                     task = task,
                     onTaskItemClick = {
                         onTaskItemClick(it)
+                    },
+                    onTaskItemLongPressed = {
+                        onTaskItemLongPressed(it)
                     }
                 )
             }
