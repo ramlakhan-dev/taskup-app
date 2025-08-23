@@ -1,10 +1,10 @@
 package com.rl.taskup.presentation.components
 
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
@@ -86,6 +86,15 @@ fun TaskItem(
                     text = "Created at ${DateFormat.getDateTimeInstance().format(task.timeStamp)}",
                     style = MaterialTheme.typography.bodySmall
                 )
+
+                Spacer(modifier = Modifier.padding(vertical = 4.dp))
+                if (task.notifyAt != null) {
+                    Text(
+                        text = "Notify at ${DateFormat.getDateTimeInstance().format(task.notifyAt)}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                }
+
             }
         }
 
