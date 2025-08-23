@@ -70,7 +70,8 @@ fun TaskUpApp(taskViewModel: TaskViewModel = hiltViewModel()) {
         }
     ) { innerPadding ->
         Home(
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier.padding(innerPadding),
+            taskViewModel = taskViewModel
         )
     }
 }

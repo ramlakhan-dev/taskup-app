@@ -4,6 +4,7 @@ import com.rl.taskup.data.local.dao.TaskDao
 import com.rl.taskup.data.repository.TaskRepositoryImpl
 import com.rl.taskup.domain.repository.TaskRepository
 import com.rl.taskup.domain.usecase.AddTaskUseCase
+import com.rl.taskup.domain.usecase.GetAllTaskUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,6 +25,12 @@ object AppModule {
     @Singleton
     fun provideAddTaskUseCase(repository: TaskRepository): AddTaskUseCase {
         return AddTaskUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetAllTaskUseCase(repository: TaskRepository): GetAllTaskUseCase {
+        return GetAllTaskUseCase(repository)
     }
 
 }
